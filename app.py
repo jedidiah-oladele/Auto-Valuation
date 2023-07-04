@@ -180,7 +180,34 @@ min_distance = col2.number_input(
 )
 
 
-tab2, tab1 = st.tabs(["Upload file", "Enter coordinates"])
+tab1, tab2 = st.tabs(["Enter coordinates", "Upload file"])
+
+with tab1:
+    # Single coordinates
+    col1, col2 = st.columns(2)
+    input_lat = col1.number_input(
+        "Latitude", value=24.8033547, min_value=0.0, step=0.1, format="%0.7f"
+    )
+    input_lng = col2.number_input(
+        "Longitude", value=46.6206349, min_value=0.0, step=0.1, format="%0.7f"
+    )
+
+    results = get_rs_score(input_lat, input_lng)
+
+    rs_score = round(results["rs_score"], 4)
+    category_scores = results["category_scores"]
+    proximity_scores = results["proximity_scores"]
+
+    # Display result
+    st.success(f"RS Score: {rs_score}")
+
+    if st.checkbox("Show Info"):
+        st.write("Scores across main public services categories:")
+        st.dataframe(category_scores, use_container_width=True)
+
+        st.write("Scores across subcategories:")
+        st.dataframe(proximity_scores, use_container_width=True)
+
 with tab2:
     # CSV upload
     uploaded_file = st.file_uploader(
@@ -214,33 +241,6 @@ with tab2:
             data=real_estate_listings.to_csv(index=False).encode("utf-8"),
             file_name="real_estate_listings.csv",
         )
-
-
-with tab1:
-    # Single coordinates
-    col1, col2 = st.columns(2)
-    input_lat = col1.number_input(
-        "Latitude", value=24.8033547, min_value=0.0, step=0.1, format="%0.7f"
-    )
-    input_lng = col2.number_input(
-        "Longitude", value=46.6206349, min_value=0.0, step=0.1, format="%0.7f"
-    )
-
-    results = get_rs_score(input_lat, input_lng)
-
-    rs_score = round(results["rs_score"], 4)
-    category_scores = results["category_scores"]
-    proximity_scores = results["proximity_scores"]
-
-    # Display result
-    st.success(f"RS Score: {rs_score}")
-
-    if st.checkbox("Show Info"):
-        st.write("Scores across main public services categories:")
-        st.dataframe(category_scores, use_container_width=True)
-
-        st.write("Scores across subcategories:")
-        st.dataframe(proximity_scores, use_container_width=True)
 
 
 authenticator.logout("Logout", "main")
