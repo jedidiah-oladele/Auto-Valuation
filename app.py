@@ -37,9 +37,6 @@ if not st.session_state["authentication_status"]:
         # Failed to login
         st.error("Username/password is incorrect")
 
-    elif st.session_state["authentication_status"] == None:
-        # No attempt to login
-        st.warning("Please enter your username and password")
     st.stop()
 
 
