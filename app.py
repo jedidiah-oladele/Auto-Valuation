@@ -180,7 +180,7 @@ min_distance = col2.number_input(
 )
 
 
-tab1, tab2 = st.tabs(["Enter coordinates", "Upload file"])
+tab2, tab1 = st.tabs(["Upload file", "Enter coordinates"])
 with tab2:
     # CSV upload
     uploaded_file = st.file_uploader(
