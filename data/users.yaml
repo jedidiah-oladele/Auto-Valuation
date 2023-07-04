@@ -1,0 +1,13 @@
+cookie:
+  expiry_days: 1
+  key: savedFor7DaysByJ
+  name: autovaluation
+credentials:
+  usernames:
+    deemah:
+      email: admin@gmail.com
+      name: Deemah
+      password: $2b$12$UUO18Xc5fGohwqK6kgFioOxMiVaaAqT6FEesStnfDPWlwcBFwNP7K
+preauthorized:
+  emails:
+  - jehddie@gmail.com

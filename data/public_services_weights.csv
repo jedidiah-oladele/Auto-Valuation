@@ -1,0 +1,29 @@
+main_cat,sub_cat,weight
+Education,College,0.3333333333333333
+Education,Other Education Services,0.3333333333333333
+Education,School,0.3333333333333333
+General Facility,Facilities,0.25
+General Facility,General Libarary,0.25
+General Facility,Mosque,0.25
+General Facility,Park,0.25
+Government,Civil Defense,0.25
+Government,Ministry,0.25
+Government,Other Governmental Services,0.25
+Government,Police,0.25
+Health,Clinic,0.25
+Health,Hospital,0.25
+Health,Other Health Services,0.25
+Health,Pharmacy,0.25
+Hopspitality,Hotel,0.3333333333333333
+Hopspitality,Motel,0.3333333333333333
+Hopspitality,Resort,0.3333333333333333
+"Stores, Offices And Commercial Services",Atm,0.1
+"Stores, Offices And Commercial Services",Bank,0.1
+"Stores, Offices And Commercial Services",Cafes,0.1
+"Stores, Offices And Commercial Services",Commercial_Service,0.1
+"Stores, Offices And Commercial Services",Company,0.1
+"Stores, Offices And Commercial Services",Gas Station,0.1
+"Stores, Offices And Commercial Services",Mall,0.1
+"Stores, Offices And Commercial Services",Markets,0.1
+"Stores, Offices And Commercial Services",Resturant,0.1
+"Stores, Offices And Commercial Services",Store,0.1
