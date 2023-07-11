@@ -48,7 +48,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     lon2_rad = math.radians(lon2)
 
     # Radius of the Earth in kilometers
-    radius = 6371.0
+    RADIUS = 6371.0
 
     # Calculate the differences between the latitudes and longitudes
     dlat = lat2_rad - lat1_rad
@@ -60,7 +60,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
         + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2) ** 2
     )
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-    distance = radius * c
+    distance = RADIUS * c
 
     return distance
 
