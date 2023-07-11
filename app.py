@@ -114,7 +114,9 @@ def get_public_services_data():
 
 @st.cache_data()  # To avoid duplicate calculations
 def get_rs_score(listings_lat, listings_long):
-    # Clean up function
+    """
+    Clean up function to compute the rs_score for a latitude and logitude
+    """
 
     # Get distance of each public service from the listing
     public_services_data["distance"] = public_services_data.apply(
@@ -132,31 +134,52 @@ def get_rs_score(listings_lat, listings_long):
         lambda x: calculate_proximity_score(x)
     )
 
-    # Keep the maximum proximity score in each sub category
-    proximity_scores = (
+    # Define a function to count non-zero values
+    def count_non_zero(x):
+        return (x != 0).sum()
+
+    # Calculate the max proximity score and count non-zero proximity scores for each sub-category
+    proximity_scores_agg = (
         public_services_data.groupby(["main_cat", "sub_cat"])["proximity_score"]
-        .max()
+        .agg(
+            max_proximity_score="max",
+            total_public_services="size",
+            proximate_public_services=count_non_zero,
+        )
         .reset_index()
     )
 
-    # Get the weighted score
+    # Find the ratio of proximity scores that are not zero
+    proximity_scores_agg["public_services_ratio"] = (
+        proximity_scores_agg["proximate_public_services"]
+        / proximity_scores_agg["total_public_services"]
+    )
+
+    # Combine the max proximity score and count to create a final score
+    proximity_scores_agg["agg_proximity_score"] = (
+        proximity_scores_agg["max_proximity_score"]
+        + proximity_scores_agg["public_services_ratio"]
+    ) / 2
+
+    # Merge the weights dataframe to the proximity scores
     proximity_scores = pd.merge(
-        proximity_scores,
+        proximity_scores_agg,
         PUBLIC_SERVICES_WEIGHTS,
         how="left",
         on=["main_cat", "sub_cat"],
     )
 
+    # Calculate the final weighted scores
     proximity_scores["weighted_score"] = (
-        proximity_scores["proximity_score"] * proximity_scores["weight"]
+        proximity_scores["agg_proximity_score"] * proximity_scores["weight"]
     )
 
-    # Get the scores for the various groups
+    # Get the scores for the main category
     category_scores = (
         proximity_scores.groupby("main_cat")["weighted_score"].sum().reset_index()
     )
 
-    # Find the average category score (final rs_score)
+    # Calculate the average category score (final rs_score)
     rs_score = round(category_scores["weighted_score"].mean(), 4)
 
     return {
